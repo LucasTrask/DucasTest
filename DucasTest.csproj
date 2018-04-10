@@ -69,13 +69,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChatHandlers\ChatCommandEntry.cs" />
     <Compile Include="ChatUtil.cs" />
+    <Compile Include="Inventory\BuildInventoryMap.cs" />
+    <Compile Include="Inventory\CombineSalvage.cs" />
+    <Compile Include="Inventory\MultiMap.cs" />
+    <Compile Include="ItemEnums\Salvage.cs" />
     <Compile Include="MainView.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Npcs\Collector.cs" />
+    <Compile Include="Npcs\GenericCollector.cs" />
     <Compile Include="Npcs\GenericFinderAndReturner.cs" />
     <Compile Include="Npcs\IvoryCrafter.cs" />
     <Compile Include="Npcs\RenselmsApprentice.cs" />
+    <Compile Include="PkDeteck\PlayerDiscovered.cs" />
     <Compile Include="PluginCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spellbars\ClearSpells.cs" />

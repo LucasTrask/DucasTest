@@ -6,6 +6,8 @@ using MyClasses.MetaViewWrappers;
 using VirindiViewService;
 using DucasTest.Npcs;
 using DucasTest.Vendors;
+using DucasTest.ChatHandlers;
+using DucasTest.PkDeteck;
 
 namespace DucasTest
 {
@@ -14,7 +16,7 @@ namespace DucasTest
 
     [MVView("DucasTest.mainView.xml")] // file that tells vT how to draw plugin in-game, must be embedded resource
     [MVWireUpControlEvents] // TODO: learn this better
-    [FriendlyName("DucasTest")] // decal plugin list name, not in game name
+    [FriendlyName("DucasTest_20180408_00")] // decal plugin list name, not in game name
 
 
     // Main class, split up into MainView.cs for the button logic
@@ -70,6 +72,11 @@ namespace DucasTest
         [BaseEvent("LoginComplete", "CharacterFilter")]
         private void CharacterFilter_LoginComplete(object sender, EventArgs e)
         {
+            if (CoreManager.Current.CharacterFilter.Id.ToString() != "1342177503")
+            {
+                Globals.Host.Actions.Logout();
+            }
+
             try
             {
                 Util.WriteToChat("Allegiance : " + CoreManager.Current.CharacterFilter.Allegiance.Type.ToString());
@@ -132,15 +139,15 @@ namespace DucasTest
 
         private void Core_ChatBoxMessage(object sender, Decal.Adapter.ChatTextInterceptEventArgs e)
         {
-            Util.WriteToChat(e.Text);
+            //Util.WriteToChat(e.Text);
             if (e.Text.Contains("A fine reward for your formidable deed"))
             {
                 Util.WriteToChat("Contains Check Is Good");
                 if (TurnInFlag)
                 {
                     Util.WriteToChat("Flag Is Good");
-                    Util.WriteToChat(IvoryCrafter.TurnInIvory());
-                    TurnInFlag = IvoryCrafter.GenerateItemLists();
+                    Util.WriteToChat(IvoryCrafter.TurnIn());
+                    //TurnInFlag = IvoryCrafter.GenerateItemLists();
                 }
 
             }
@@ -279,113 +286,25 @@ namespace DucasTest
 
             string Text = e.Text.ToLower().TrimEnd();
 
-            switch (Text)
+            if (Text.Length >= 5 && // if the length is at least 5, then check for either /dt or //dt
+                    (Text.Substring(0,3).Equals("/dt") || 
+                     Text.Substring(0,4).Equals("//dt")))
             {
-                case "/dt help":
-                    Util.WriteToChat("/dt doesNothing");
-                    Util.WriteToChat("/dt nothingDoes");
-                    Util.WriteToChat("/dt nothingNothing");
-                    break;
-                case "/dt test":
-                    Util.WriteToChat("Test Successful!");
-                    break;
-                case "/dt add_notes_and_kits":
-                case "//dt ank":
-                    Util.WriteToChat("Chat Command Noticed, attemping CS!");
-                    BuyingUtils.AddKitsAndNotesToBuyTab();
-                    break;
-                case "/dt sell_all_buy_tab":
-                case "//dt sabt":
-                    BuyingUtils.SellAllBuyTab();
-                    break;
-                case "/dt what_does_eglaema_have":
-                case "//dt wdeh":
-                    TestSpyMethod();
-                    break;
-                case "//dt otv":
-                    //AunMareuraTheCollector.TestBuyTokens();
-                    break;
-                case "/dt turn_in_wings":
-                    TurnInFlag = true;
-                    Util.WriteToChat(WingCollector.TurnInWings());
-                    break;
-                case "/dt turn_in_ivory":
-                    TurnInFlag = true;
-                    Util.WriteToChat("Test");
-                    //Util.WriteToChat(IvoryCrafter.TurnInIvory());
-                    break;
-                case "/dt turn_in_collector":
-                    TurnInFlag = true;
-                    Util.WriteToChat(Collector.TurnInStuff());
-                    break;
-                case "/dt turn_in_triangles":
-                    TurnInFlag = true;
-                    Util.WriteToChat(RenselmsApprentice.TurnInTriangles());
-                    break;
-                case "/dt disable_turn_in_flag":
-                    TurnInFlag = false;
-                    break;
-
-
-            } // don't put a default in this switch, that is bad
-
-
-        }
-
-        private void TestSpyMethod()
-        {
-            WorldObjectCollection Eglaimas_Items =  Globals.Core.WorldFilter.GetByOwner(1342179683);
-            foreach (WorldObject eItem in Eglaimas_Items)
-            {
-                Util.WriteToChat("Spy: " + eItem.Name + " with ID of " + eItem.Id);
+                ChatCommandEntry.ProcessCommand(Text);
             }
-        }
 
+        }
 
         //[BaseEvent("CreateObject", "WorldFilter")]
         private void WorldFilter_CreateObject(object sender, CreateObjectEventArgs e)
         {
-
             WorldObject worldObject = e.New;
             if (e.New.ObjectClass == ObjectClass.Player)
             {
-                if (worldObject.Values(LongValueKey.Monarch) == 0)
-                {
-                    Util.WriteToChat("Unaligned Player Detected: " + worldObject.Name, ChatUtil.Color.orange);
-                    if (LogOnUnknownFlag)
-                    {
-                        Logout();
-                        Util.WriteToChat("LOGGING OUT!!!", ChatUtil.Color.white);
-                    }
-
-                }
-                else if ((Globals.Core.CharacterFilter.Monarch != null) && (Globals.Core.CharacterFilter.Monarch.Id == worldObject.Values(LongValueKey.Monarch)))
-                {
-                    Util.WriteToChat("Ally Detected: " + worldObject.Name + " :: " + worldObject.Values(StringValueKey.MonarchName), ChatUtil.Color.orange);
-                    if (LogOnFriendlyFlag)
-                    {
-                        Logout();
-                        Util.WriteToChat("LOGGING OUT!!!", ChatUtil.Color.white);
-                    }
-                }
-                else
-                {
-                    Util.WriteToChat("Enemy Detected: " + worldObject.Name + " :: " + worldObject.Values(StringValueKey.MonarchName), ChatUtil.Color.orange);
-                    if (LogOnPkFlag)
-                    {
-                        Logout();
-                        Util.WriteToChat("LOGGING OUT!!!", ChatUtil.Color.white);
-                    }
-                }
+                PlayerDiscovered.ProcessPlayer(worldObject, Globals.Core.CharacterFilter.Monarch.Id, LogOnUnknownFlag, LogOnFriendlyFlag, LogOnPkFlag);
             }
         }
 
-        private void Logout()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                Host.Actions.Logout();
-            }
-        }
+        
     }
 }
