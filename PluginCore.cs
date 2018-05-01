@@ -19,7 +19,11 @@ namespace DucasTest
     [FriendlyName("DucasTest_20180408_00")] // decal plugin list name, not in game name
 
 
-    // Main class, split up into MainView.cs for the button logic
+    /*
+     * Main class
+     *  MainView.cs for the button logic
+     *  PluginSettings for boolean grabs
+     */
     public partial class PluginCore : PluginBase
     {
 
@@ -74,7 +78,7 @@ namespace DucasTest
         {
             if (CoreManager.Current.CharacterFilter.Id.ToString() != "1342177503")
             {
-                Globals.Host.Actions.Logout();
+                //Globals.Host.Actions.Logout();
             }
 
             try

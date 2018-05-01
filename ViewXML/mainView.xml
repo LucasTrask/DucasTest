@@ -1,15 +1,46 @@
 <?xml version="1.0"?>
-<view icon="7687" title="DucasTest" width="230" height="400">
-  <control progid="DecalControls.FixedLayout">
-    <control progid="DecalControls.PushButton" name="cmdLogOnPk" left="16" top="20" width="160" height="24" textcolor="16777215" text="Log On PK"/>
-    <control progid="DecalControls.PushButton" name="cmdLogOnUnknown" left="16" top="50" width="160" height="24" textcolor="16777215" text="Log On Unknown"/>
-    <control progid="DecalControls.PushButton" name="cmdLogOnFriendly" left="16" top="80" width="160" height="24" textcolor="16777215" text="Log On Friendly"/>
-    <control progid="DecalControls.PushButton" name="cmdLogOnAll" left="16" top="110" width="160" height="24" textcolor="16777215" text="Log On All"/>
-    <control progid="DecalControls.PushButton" name="cmdClearAllSpellTabs" left="16" top="170" width="160" height="24" textcolor="16777215" text="Clear Spell Tabs"/>
-    <control progid="DecalControls.PushButton" name="cmdLoadMissileSpellTabs" left="16" top="200" width="160" height="24" textcolor="16777215" text="Load Missile Tabs"/>
-    <control progid="DecalControls.PushButton" name="cmdLoadMageSpellTabs" left="16" top="230" width="160" height="24" textcolor="16777215" text="Load Mage Tabs"/>
-    <control progid="DecalControls.PushButton" name="cmdLoadHeavyWeaponsSpellTabs" left="16" top="260" width="160" height="24" textcolor="16777215" text="Load Heavy Tabs"/>
-    <control progid="DecalControls.PushButton" name="cmdLoadFinesseWeaponsSpellTabs" left="16" top="290" width="160" height="24" textcolor="16777215" text="Load Finesse Tabs"/>
-    <control progid="DecalControls.PushButton" name="cmdLoadLightWeaponsSpellTabs" left="16" top="320" width="160" height="24" textcolor="16777215" text="Load Light Tabs"/>
-  </control>
+<view icon="7687" title="DucasTest" width="420" height="400">
+  <control progid="DecalControls.Notebook" name="nkMain" left="0" top="40" width="420" height="400">
+    <page label="Log Off">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.PushButton" name="cmdLogOnPk" left="16" top="20" width="160" height="24" textcolor="16777215" text="Log On PK"/>
+        <control progid="DecalControls.PushButton" name="cmdLogOnUnknown" left="16" top="50" width="160" height="24" textcolor="16777215" text="Log On Unknown"/>
+        <control progid="DecalControls.PushButton" name="cmdLogOnFriendly" left="16" top="80" width="160" height="24" textcolor="16777215" text="Log On Friendly"/>
+        <control progid="DecalControls.PushButton" name="cmdLogOnAll" left="16" top="110" width="160" height="24" textcolor="16777215" text="Log On All"/>
+      </control>
+    </page>
+    <page label="Spell Bar Setup">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.PushButton" name="cmdClearAllSpellTabs" left="16" top="170" width="160" height="24" textcolor="16777215" text="Clear Spell Tabs"/>
+        <control progid="DecalControls.PushButton" name="cmdLoadMissileSpellTabs" left="16" top="200" width="160" height="24" textcolor="16777215" text="Load Missile Tabs"/>
+        <control progid="DecalControls.PushButton" name="cmdLoadMageSpellTabs" left="16" top="230" width="160" height="24" textcolor="16777215" text="Load Mage Tabs"/>
+        <control progid="DecalControls.PushButton" name="cmdLoadHeavyWeaponsSpellTabs" left="16" top="260" width="160" height="24" textcolor="16777215" text="Load Heavy Tabs"/>
+        <control progid="DecalControls.PushButton" name="cmdLoadFinesseWeaponsSpellTabs" left="16" top="290" width="160" height="24" textcolor="16777215" text="Load Finesse Tabs"/>
+        <control progid="DecalControls.PushButton" name="cmdLoadLightWeaponsSpellTabs" left="16" top="320" width="160" height="24" textcolor="16777215" text="Load Light Tabs"/>
+      </control>
+    </page>
+    <page label="Experience">
+      <control progid="DecalControls.List" name="lstResult" left="20" top="50" width="380" height="250">
+        <column progid="DecalControls.TextColumn" name="colName" fixedwidth="160"/>
+        <column progid="DecalControls.TextColumn" name="colIron" fixedwidth="40"/>
+        <column progid="DecalControls.TextColumn" name="colGranite" fixedwidth="40"/>
+        <column progid="DecalControls.TextColumn" name="colDmg" fixedwidth="70"/>
+        <column progid="DecalControls.TextColumn" name="colCmp" fixedwidth="70"/>
+      </control>      
+    </page>
+    <page label="Settings">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.CheckBox" name="chkOutputToChat" left="25" top="20" width="300" height="20" text="Output to Chat"/>
+        <control progid="DecalControls.CheckBox" name="chkAssumeCS" left="25" top="50" width="300" height="20" text="Assume CS for unimbued instead of AR"/>
+      </control>
+    </page>
+    <page label="About">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.StaticText" name="AboutText1" left="18" top="10" width="320" height="40" justify="Center" fontsize="18" fontstyle="" text="LucasFarts was written by Lucas."/>
+        <control progid="DecalControls.StaticText" name="AboutText2" left="18" top="60" width="320" height="80" justify="Center" fontsize="18" fontstyle="" text="You probably can't find the source code for this. But maybe you can."/>
+        <control progid="DecalControls.StaticText" name="UseAtOwnRisk" left="18" top="150" width="320" height="40" textcolor="192" justify="Center" fontsize="22" fontstyle=" bold" text="USE AT YOUR OWN RISK!"/>
+      </control>
+    </page>
+
+    </control>
 </view>
